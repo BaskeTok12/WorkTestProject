@@ -6,7 +6,6 @@ using UI.Scale_Manager;
 using UI.Transitions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI.UI_Manager
@@ -90,6 +89,11 @@ namespace UI.UI_Manager
         public void LoadMenuScene()
         {
             SceneManager.LoadScene(Scenes.MenuScene);
+        }
+
+        public void ToggleFullscreen(bool state)
+        {
+            Screen.fullScreen = state;
         }
     }
 }
