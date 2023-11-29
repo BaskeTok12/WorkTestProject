@@ -5,28 +5,28 @@ namespace UI.Score
 {
     public class DisplayHighScores : MonoBehaviour 
     {
-        public TMPro.TextMeshProUGUI[] rNames;
-        public TMPro.TextMeshProUGUI[] rScores;
+        public TMPro.TextMeshProUGUI[] PlayersNames;
+        public TMPro.TextMeshProUGUI[] PlayersScores;
         private HighScores _myScores;
 
         void Start() //Fetches the Data at the beginning
         {
-            for (int i = 0; i < rNames.Length;i ++)
+            for (int i = 0; i < PlayersNames.Length;i ++)
             {
-                rNames[i].text = i + 1 + ". Fetching...";
+                PlayersNames[i].text = i + 1 + ". Fetching...";
             }
             _myScores = GetComponent<HighScores>();
             StartCoroutine("RefreshHighscores");
         }
         public void SetScoresToMenu(PlayerScore[] highscoreList) //Assigns proper name and score for each text value
         {
-            for (int i = 0; i < rNames.Length;i ++)
+            for (int i = 0; i < PlayersNames.Length;i ++)
             {
-                rNames[i].text = i + 1 + ". ";
+                PlayersNames[i].text = i + 1 + ". ";
                 if (highscoreList.Length > i)
                 {
-                    rScores[i].text = highscoreList[i].score.ToString();
-                    rNames[i].text = highscoreList[i].username;
+                    PlayersScores[i].text = highscoreList[i].score.ToString();
+                    PlayersNames[i].text = highscoreList[i].username;
                 }
             }
         }

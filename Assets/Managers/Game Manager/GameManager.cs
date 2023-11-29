@@ -1,6 +1,8 @@
 using System;
+using Common.CommonScripts.Constants;
 using Main_Controller;
 using Managers.Player_Handler;
+using UI.Score;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
@@ -61,7 +63,7 @@ namespace Managers.Game_Manager
             OnRestart?.Invoke();
         }
 
-        public string GetCurrentPlayerName()
+        private string GetCurrentPlayerName()
         {
             return _playerHandler.CurrentPlayerName;
         }
@@ -69,6 +71,8 @@ namespace Managers.Game_Manager
         private void IncreaseScore()
         {
             Scores += 1;
+            
+            PlayerPrefs.SetInt(PlayerPreferencesNaming.LastScore, Scores);
             OnScoreIncreased?.Invoke();
         }
         
@@ -78,6 +82,8 @@ namespace Managers.Game_Manager
             
             BestScore = Scores;
             
+            PlayerPrefs.SetInt(PlayerPreferencesNaming.HighScore, BestScore);
+            HighScores.UploadScore(GetCurrentPlayerName(), BestScore);
             OnBestScoreIncreased?.Invoke();
         }
         

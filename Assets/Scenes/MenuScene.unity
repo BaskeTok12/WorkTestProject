@@ -2294,6 +2294,8 @@ MonoBehaviour:
   takePhotoController: {fileID: 115418493}
   nicknameInputField: {fileID: 334767887}
   displayedPlayerName: {fileID: 1929678692}
+  lastScoreText: {fileID: 1572567406}
+  bestScoreText: {fileID: 169052373}
   setAvatarPanelTransition: {fileID: 975236432}
 --- !u!114 &975236432
 MonoBehaviour:

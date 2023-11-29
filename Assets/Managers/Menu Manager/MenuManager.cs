@@ -1,5 +1,6 @@
 using System;
 using Common.CommonScripts;
+using Common.CommonScripts.Constants;
 using Data.TakePhotoController;
 using Managers.Player_Handler;
 using TMPro;
@@ -17,15 +18,26 @@ namespace Managers.Menu_Manager
         [Header("Player Name Fields")]
         [SerializeField] private TMP_InputField nicknameInputField;
         [SerializeField] private TextMeshProUGUI displayedPlayerName;
+        [Header("Displayed Scores Fields")]
+        [SerializeField] private TextMeshProUGUI lastScoreText;
+        [SerializeField] private TextMeshProUGUI bestScoreText;
         [Header("Transitions")]
-        [SerializeField] private TwoPointTransition setAvatarPanelTransition;
+        [SerializeField] private ThirdPointTransition setAvatarPanelTransition;
         
         private PlayerHandler _playerHandler;
+
+        private const string LastScoreDisplayedText = "Last score: ";
+        private const string BestScoreDisplayedText = "Best score: ";
         
         [Inject]
         private void Construct(PlayerHandler playerHandler)
         {
             _playerHandler = playerHandler ? playerHandler : throw new ArgumentNullException(nameof(playerHandler));
+        }
+
+        private void Start()
+        {
+            TryToLoadLastAndBestScore();
         }
 
         #region ButtonLinksMethod
@@ -37,12 +49,12 @@ namespace Managers.Menu_Manager
 
         public void OpenSetAvatarPanel()
         {
-            setAvatarPanelTransition.ToTransition();
+            setAvatarPanelTransition.ToFirstTransition();
         }
     
         public void CloseSetAvatarPanel()
         {
-            setAvatarPanelTransition.FromTransition();
+            setAvatarPanelTransition.FromFirstTransition();
         }
 
         public void TakePhotoFromCamera()
@@ -63,7 +75,6 @@ namespace Managers.Menu_Manager
         public void ChangeName()
         {
             SetNickname(nicknameInputField.text);
-            
         }
         #endregion
 
@@ -71,6 +82,13 @@ namespace Managers.Menu_Manager
         {
             _playerHandler.SetCurrentPlayerName(name);
             displayedPlayerName.text = _playerHandler.CurrentPlayerName;
+            PlayerPrefs.SetString(PlayerPreferencesNaming.PlayerName, name);
+        }
+
+        private void TryToLoadLastAndBestScore()
+        {
+            lastScoreText.text = LastScoreDisplayedText + PlayerPrefs.GetInt(PlayerPreferencesNaming.LastScore);
+            bestScoreText.text = BestScoreDisplayedText + PlayerPrefs.GetInt(PlayerPreferencesNaming.HighScore);
         }
     }
 }

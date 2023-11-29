@@ -1,6 +1,6 @@
 ﻿namespace Common.CommonScripts.Constants
 {
-    public class DefaultPlayerName
+    public abstract class DefaultPlayerName
     {
         public const string DefaultName = "Player";
     }

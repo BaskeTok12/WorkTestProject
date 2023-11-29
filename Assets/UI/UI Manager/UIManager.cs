@@ -20,8 +20,8 @@ namespace UI.UI_Manager
         [SerializeField] private GameObject restartPanel;
         [SerializeField] private Button inGamePanelButton;
         [Header("Transition")]
-        [SerializeField] private TwoPointTransition mainPanelsTransition;
-        [SerializeField] private TwoPointTransition bestScoresPanelTransition;
+        [SerializeField] private ThirdPointTransition mainPanelsTransition;
+        [SerializeField] private ThirdPointTransition bestScoresPanelTransition;
         [Header("Parameters")] 
         [SerializeField] private float fadeDuration;
         [Header("UI Animations")]
@@ -31,14 +31,14 @@ namespace UI.UI_Manager
         {
             GameManager.OnRestart += ShowInGamePanel;
             
-            ScaleManager.OnObstaclesScaled += ShowRestartPanel;
+            ScaleManager.OnObstaclesScaled += ShowRestartPanelFromGame;
         }
 
         private void OnDisable()
         {
             GameManager.OnRestart -= ShowInGamePanel;
       
-            ScaleManager.OnObstaclesScaled -= ShowRestartPanel;
+            ScaleManager.OnObstaclesScaled -= ShowRestartPanelFromGame;
         }
 
         public void StartGame()
@@ -55,29 +55,39 @@ namespace UI.UI_Manager
         
         private void ShowInGamePanel()
         {
-            mainPanelsTransition.FromTransition();
+            mainPanelsTransition.FromFirstTransition();
             inGamePanelButton.enabled = true;
             //fadingManager.ShowPanel(backgroundCircle, fadeDuration);
         }
     
-        private void ShowRestartPanel()
+        private void ShowRestartPanelFromGame()
         {
-            mainPanelsTransition.ToTransition();
+            mainPanelsTransition.ToFirstTransition();
             //backgroundCircleAnimator.SetTrigger(Animations.FadeOutTrigger);
             OnRestartScreenOpened?.Invoke();
             //fadingManager.HidePanel(backgroundCircle, fadeDuration);
+        }
+        
+        public void ShowRestartPanelFromHighScore()
+        {
+            mainPanelsTransition.FromSecondTransition();
+            OnRestartScreenOpened?.Invoke();
+        }
+        public void ShowHighScorePanelFromRestart()
+        {
+            mainPanelsTransition.ToSecondTransition();
         }
 
         #region ForButtons
         
         public void ShowBestScoresPanel()
         {
-            bestScoresPanelTransition.ToTransition();
+            bestScoresPanelTransition.ToFirstTransition();
         }
         
         public void HideBestScoresPanel()
         {
-            bestScoresPanelTransition.ToTransition();
+            bestScoresPanelTransition.ToFirstTransition();
         }
         
         #endregion

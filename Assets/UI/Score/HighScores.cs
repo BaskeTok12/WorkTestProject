@@ -23,6 +23,7 @@ namespace UI.Score
         public static void UploadScore(string username, int score)  //CALLED when Uploading new Score to WEBSITE
         {//STATIC to call from other scripts easily
             _instance.StartCoroutine(_instance.DatabaseUpload(username,score)); //Calls Instance
+            Debug.Log("Uploaded highscore!");
         }
 
         private IEnumerator DatabaseUpload(string userame, int score) //Called when sending new score to Website
