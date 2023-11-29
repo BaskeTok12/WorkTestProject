@@ -1,5 +1,6 @@
 ﻿using Managers.Game_Manager;
 using TMPro;
+using UI.Score;
 using UnityEngine;
 
 namespace UI.ScoreManager
@@ -11,6 +12,8 @@ namespace UI.ScoreManager
         [Header("Text")]
         [SerializeField] private TextMeshProUGUI scoreText;
         [SerializeField] private TextMeshProUGUI bestScoreText;
+
+        private readonly string _highScore = "HighScore";
         
         private void OnEnable()
         {
@@ -30,12 +33,17 @@ namespace UI.ScoreManager
 
         private void UpdateScore()
         {
-            scoreText.text = gameManager.Scores.ToString();
+            var currentScore = gameManager.Scores;
+
+            scoreText.text = currentScore.ToString();
         }
 
         private void UpdateBestScore()
         {
-            Debug.Log("BestScore (from ScoreMan) :" + gameManager.BestScore);
+            var currentScore = gameManager.BestScore;
+            
+            PlayerPrefs.SetInt(_highScore, currentScore);
+            HighScores.UploadScore(gameManager.GetCurrentPlayerName(), currentScore);
         }
 
         private void ResetScore()

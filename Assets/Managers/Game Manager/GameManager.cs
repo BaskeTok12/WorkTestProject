@@ -1,7 +1,6 @@
 using System;
 using Main_Controller;
 using Managers.Player_Handler;
-using Score_Controller;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
@@ -20,8 +19,6 @@ namespace Managers.Game_Manager
         private InputController.PlayerInteractionsActions _playerInteractions;
         
         private PlayerHandler _playerHandler;
-
-        [SerializeField] private HighScoreHandler highScoreHandler;
         
         public int Scores { get; private set; }
         public int BestScore { get; private set; }
@@ -63,6 +60,11 @@ namespace Managers.Game_Manager
         {
             OnRestart?.Invoke();
         }
+
+        public string GetCurrentPlayerName()
+        {
+            return _playerHandler.CurrentPlayerName;
+        }
         
         private void IncreaseScore()
         {
@@ -75,7 +77,7 @@ namespace Managers.Game_Manager
             if (Scores <= BestScore) return;
             
             BestScore = Scores;
-            highScoreHandler.AddHighScoreIfPossible(new HighScoreElement(_playerHandler.CurrentPlayerName, BestScore));
+            
             OnBestScoreIncreased?.Invoke();
         }
         
