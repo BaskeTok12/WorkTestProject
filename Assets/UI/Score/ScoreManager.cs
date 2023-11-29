@@ -1,6 +1,6 @@
-﻿using Common.CommonScripts.Constants;
-using Managers.Game_Manager;
+﻿using Managers.Game_Manager;
 using TMPro;
+using UI.UI_Manager;
 using UnityEngine;
 
 namespace UI.Score
@@ -11,14 +11,16 @@ namespace UI.Score
         [SerializeField] private GameManager gameManager;
         [Header("Text")]
         [SerializeField] private TextMeshProUGUI scoreText;
-        [SerializeField] private TextMeshProUGUI bestScoreText;
+        [SerializeField] private TextMeshProUGUI restartPanelScoreText;
+        [SerializeField] private TextMeshProUGUI isBestScoreText;
         
         private void OnEnable()
         {
             GameManager.OnScoreIncreased += UpdateScore;
 
             GameManager.OnRestart += ResetScore;
-            GameManager.OnBestScoreIncreased += UpdateBestScore;
+
+            UIManager.OnRestartScreenOpened += SetScoreTextOnRestartPanel;
         }
 
         private void OnDisable()
@@ -26,7 +28,8 @@ namespace UI.Score
             GameManager.OnScoreIncreased -= UpdateScore;
 
             GameManager.OnRestart -= ResetScore;
-            GameManager.OnBestScoreIncreased -= UpdateBestScore;
+            
+            UIManager.OnRestartScreenOpened -= SetScoreTextOnRestartPanel;
         }
 
         private void UpdateScore()
@@ -36,14 +39,21 @@ namespace UI.Score
             scoreText.text = currentScore.ToString();
         }
 
-        private void UpdateBestScore()
-        {
-            var currentScore = gameManager.BestScore;
-        }
-
         private void ResetScore()
         {
             scoreText.text = string.Empty;
+        }
+
+        private void SetScoreTextOnRestartPanel()
+        {
+            var currentScore = gameManager.Scores;
+            restartPanelScoreText.text = currentScore.ToString();
+            if (currentScore >= gameManager.BestScore)
+            {
+                isBestScoreText.gameObject.SetActive(true);
+                return;
+            }
+            isBestScoreText.gameObject.SetActive(false);
         }
     }
 }

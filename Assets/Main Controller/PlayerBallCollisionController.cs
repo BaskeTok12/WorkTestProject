@@ -1,5 +1,5 @@
 using System;
-using Common.CommonScripts;
+using Common.CommonScripts.Constants;
 using Unity.Mathematics;
 using UnityEngine;
 

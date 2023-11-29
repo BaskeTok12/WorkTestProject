@@ -1,6 +1,6 @@
-﻿namespace Common.CommonScripts
+﻿namespace Common.CommonScripts.Constants
 {
-    public class Scenes
+    public abstract class Scenes
     {
         public const string GamePlayScene = "Scenes/GamePlayScene";
         public const string MenuScene = "Scenes/MenuScene";

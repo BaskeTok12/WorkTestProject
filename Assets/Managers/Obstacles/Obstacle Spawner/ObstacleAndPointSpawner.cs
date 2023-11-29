@@ -5,7 +5,7 @@ using Managers.Game_Manager;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Obstacles.Obstacle_Spawner
+namespace Managers.Obstacles.Obstacle_Spawner
 {
     public class ObstacleAndPointSpawner : MonoBehaviour
     {

@@ -9,7 +9,7 @@ namespace UI.Score
         public TMPro.TextMeshProUGUI[] PlayersScores;
         private HighScores _myScores;
 
-        void Start() //Fetches the Data at the beginning
+        private void Start() //Fetches the Data at the beginning
         {
             for (int i = 0; i < PlayersNames.Length;i ++)
             {
@@ -25,12 +25,13 @@ namespace UI.Score
                 PlayersNames[i].text = i + 1 + ". ";
                 if (highscoreList.Length > i)
                 {
-                    PlayersScores[i].text = highscoreList[i].score.ToString();
-                    PlayersNames[i].text = highscoreList[i].username;
+                    PlayersScores[i].text = highscoreList[i].Score.ToString();
+                    PlayersNames[i].text = highscoreList[i].Username;
                 }
             }
         }
-        IEnumerator RefreshHighscores() //Refreshes the scores every 30 seconds
+
+        private IEnumerator RefreshHighscores() //Refreshes the scores every 30 seconds
         {
             while(true)
             {

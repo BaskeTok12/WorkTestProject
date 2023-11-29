@@ -1,9 +1,12 @@
 using System;
-using Main_Controller;
+using Common.CommonScripts.Constants;
 using Managers.Game_Manager;
+using SFX.Sound_Manager;
 using UI.Scale_Manager;
 using UI.Transitions;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI.UI_Manager
@@ -11,21 +14,19 @@ namespace UI.UI_Manager
     public class UIManager : MonoBehaviour
     {
         public static event Action OnRestartScreenOpened;
+        public static event Action OnGameScreenOpened;
         
         [Header("Managers")] 
         [SerializeField] private GameManager gameManager;
-        [SerializeField] private FadingManager fadingManager;
+        [SerializeField] private SoundManager soundManager;
         [Header("Panels")] 
         [SerializeField] private GameObject inGamePanel;
         [SerializeField] private GameObject restartPanel;
         [SerializeField] private Button inGamePanelButton;
+        [Header("Background Circle Fader")]
+        [SerializeField] private SpriteFader backgroundCircleSpriteFader;
         [Header("Transition")]
-        [SerializeField] private ThirdPointTransition mainPanelsTransition;
-        [SerializeField] private ThirdPointTransition bestScoresPanelTransition;
-        [Header("Parameters")] 
-        [SerializeField] private float fadeDuration;
-        [Header("UI Animations")]
-        [SerializeField] private Animator backgroundCircleAnimator;
+        [SerializeField] private ThirdPointTransition panelsTransition;
         
         private void OnEnable()
         {
@@ -45,7 +46,7 @@ namespace UI.UI_Manager
         {
            gameManager.StartGame();
            inGamePanelButton.enabled = false;
-           //fadingManager.ShowPanel(backgroundCircle, fadeDuration);
+           
         }
         
         public void RestartGame()
@@ -55,41 +56,40 @@ namespace UI.UI_Manager
         
         private void ShowInGamePanel()
         {
-            mainPanelsTransition.FromFirstTransition();
+            panelsTransition.FromFirstTransition();
             inGamePanelButton.enabled = true;
-            //fadingManager.ShowPanel(backgroundCircle, fadeDuration);
+            
+            backgroundCircleSpriteFader.FadeSpriteIn();
+            OnGameScreenOpened?.Invoke();
         }
     
         private void ShowRestartPanelFromGame()
         {
-            mainPanelsTransition.ToFirstTransition();
-            //backgroundCircleAnimator.SetTrigger(Animations.FadeOutTrigger);
+            panelsTransition.ToFirstTransition();
             OnRestartScreenOpened?.Invoke();
-            //fadingManager.HidePanel(backgroundCircle, fadeDuration);
+            
+            backgroundCircleSpriteFader.FadeSpriteOut();
         }
         
         public void ShowRestartPanelFromHighScore()
         {
-            mainPanelsTransition.FromSecondTransition();
+            panelsTransition.FromSecondTransition();
             OnRestartScreenOpened?.Invoke();
         }
+        
         public void ShowHighScorePanelFromRestart()
         {
-            mainPanelsTransition.ToSecondTransition();
+            panelsTransition.ToSecondTransition();
         }
 
-        #region ForButtons
-        
-        public void ShowBestScoresPanel()
+        public void ToggleVolume()
         {
-            bestScoresPanelTransition.ToFirstTransition();
+            soundManager.ToggleVolume();
         }
-        
-        public void HideBestScoresPanel()
+
+        public void LoadMenuScene()
         {
-            bestScoresPanelTransition.ToFirstTransition();
+            SceneManager.LoadScene(Scenes.MenuScene);
         }
-        
-        #endregion
     }
 }

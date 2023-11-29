@@ -2,7 +2,7 @@ using UI;
 using UI.Scale_Manager;
 using UnityEngine;
 
-namespace Obstacles
+namespace Managers.Obstacles
 {
     public class ObstacleController : MonoBehaviour
     {

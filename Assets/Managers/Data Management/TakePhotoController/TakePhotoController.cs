@@ -3,7 +3,7 @@ using SFB;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Data.TakePhotoController
+namespace Managers.Data_Management.TakePhotoController
 {
     public class TakePhotoController : MonoBehaviour
     {
@@ -16,7 +16,7 @@ namespace Data.TakePhotoController
         [Header("Default Avatar")] 
         [SerializeField] private Sprite defaultImage;
         
-        private ExtensionFilter[] _extensions = new [] {
+        private readonly ExtensionFilter[] _extensions = new [] {
             new ExtensionFilter("Image Files", "png", "jpg", "jpeg" ),
             new ExtensionFilter("All Files", "*" ),
         };

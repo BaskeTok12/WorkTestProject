@@ -1,7 +1,9 @@
 using System;
 using Common.CommonScripts.Constants;
+using Input_System.Scripts;
 using Main_Controller;
 using Managers.Player_Handler;
+using Managers.Point_Controller;
 using UI.Score;
 using UnityEngine;
 using UnityEngine.InputSystem;

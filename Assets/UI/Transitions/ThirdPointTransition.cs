@@ -1,4 +1,3 @@
-using UI.Scripts;
 using UnityEngine;
 
 namespace UI.Transitions

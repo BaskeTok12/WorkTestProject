@@ -14,7 +14,6 @@ namespace UI.Scale_Manager
         
         [Header("For Scaling")] 
         [SerializeField] private Scaler scoreText;
-        [SerializeField] private Scaler placedObstacles;
         [Header("Scale Parameters")]
         [SerializeField] private float tweenDuration;
         [SerializeField] private float scaleMultiplier;

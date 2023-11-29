@@ -1,4 +1,5 @@
 using Main_Controller;
+using Managers.Point_Controller;
 using UI.UI_Manager;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -9,8 +10,9 @@ namespace SFX.Sound_Manager
     {
         [Header("Mixer")] 
         [SerializeField] private AudioMixerGroup mainMixer;
+        [Header("Mixer Parameters")] 
+        [SerializeField] private float maximalVolume;
         [Header("Sources")]
-        [SerializeField] private AudioSource musicSource;
         [SerializeField] private AudioSource effectsSource;
         [Header("Sounds")] 
         [SerializeField] private AudioClip touchSound;
@@ -19,6 +21,9 @@ namespace SFX.Sound_Manager
         [SerializeField] private AudioClip restartSound;
     
         private const string MasterVolume = "MasterVolume";
+        private const float MinimalMasterVolumeValue = -80f;
+
+        private bool _isEnabled = true;
 
         private void OnEnable()
         {
@@ -53,7 +58,14 @@ namespace SFX.Sound_Manager
     
         private void PlayRestartSound()
         {
-            musicSource.PlayOneShot(restartSound);
+            effectsSource.PlayOneShot(restartSound);
+        }
+        
+        public void ToggleVolume()
+        {
+            mainMixer.audioMixer.SetFloat(MasterVolume, _isEnabled ? MinimalMasterVolumeValue : maximalVolume);
+            
+            _isEnabled = !_isEnabled;
         }
     }
 }

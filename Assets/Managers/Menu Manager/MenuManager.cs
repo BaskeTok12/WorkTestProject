@@ -1,7 +1,6 @@
 using System;
-using Common.CommonScripts;
 using Common.CommonScripts.Constants;
-using Data.TakePhotoController;
+using Managers.Data_Management.TakePhotoController;
 using Managers.Player_Handler;
 using TMPro;
 using UI.Transitions;
