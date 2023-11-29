@@ -1,5 +1,6 @@
 ﻿using System;
 using DG.Tweening;
+using UI.Scale_Manager;
 using UnityEngine;
 
 namespace UI
@@ -7,40 +8,50 @@ namespace UI
     public class Scaler : MonoBehaviour
     {
         private Vector3 _defaultScale;
+        
         private void Start()
         {
             _defaultScale = transform.localScale;
         }
 
-        public void ScaleYoYo(float scaleMultiplier, float duration)
+        private void OnEnable()
         {
-            var targetScale = transform.localScale * scaleMultiplier;
-
-            transform.DOScale(targetScale, duration)
-                .SetEase(Ease.InBounce);
-            //transform.DOPunchScale(targetScale, duration);
+            ScaleManager.OnScaleReset += ResetScale;
         }
 
-        public void ScaleToZero(float scaleMultiplier)
+        private void OnDisable()
         {
-            float duration = 0.5f;
-            
-            transform.DOScale(_defaultScale, duration)
-                .SetEase(Ease.InBounce);
-            
-            /*transform.DOScaleY(_defaultScale.y * 1.3f, duration / 2)
-                .SetEase(Ease.InOutBounce)
-                .OnComplete(() => transform.DOScaleY(0f, duration / 2)
-                    .SetEase(Ease.InOutBounce));*/
-            
-            
-            /*transform.DOScaleY(scaleMultiplier, duration)
-                .SetEase(Ease.OutBounce)
+            ScaleManager.OnScaleReset -= ResetScale;
+        }
+
+        public void ScaleYoYo(float scaleMultiplier, float duration)
+        {
+            transform.DOScale(_defaultScale * scaleMultiplier, duration / 2f)
+                .SetEase(Ease.OutQuad) // You can adjust the easing function as needed
                 .OnComplete(() =>
                 {
-                    transform.DOScaleY(0f, duration)
-                        .SetEase(Ease.InBounce);
-                });*/
+                    // Bounce back to the default scale
+                    transform.DOScale(_defaultScale, duration / 2f)
+                        .SetEase(Ease.OutBounce);
+                });
+        }
+
+        public void ScaleToZero(float scaleMultiplier, float duration)
+        {
+            transform.DOScale(_defaultScale * scaleMultiplier, duration / 2f)
+                .SetEase(Ease.OutQuad) // You can adjust the easing function as needed
+                .OnComplete(() =>
+                {
+                    // Bounce back to the default scale
+                    transform.DOScale(_defaultScale, duration / 2f)
+                        .SetEase(Ease.OutBounce)
+                        .OnComplete(() =>
+                        {
+                            // Scale down to 0
+                            transform.DOScale(Vector3.zero, duration / 2f)
+                                .SetEase(Ease.OutQuad);
+                        });
+                });
         }
 
         public void ResetScale()

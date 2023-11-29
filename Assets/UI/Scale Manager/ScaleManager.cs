@@ -8,7 +8,9 @@ namespace UI.Scale_Manager
 {
     public class ScaleManager : MonoBehaviour
     {
+        public static event Action<float, float> OnObstaclesNeedToScale;
         public static event Action OnObstaclesScaled;
+        public static event Action OnScaleReset;
         
         [Header("For Scaling")] 
         [SerializeField] private Scaler scoreText;
@@ -37,17 +39,19 @@ namespace UI.Scale_Manager
 
         private void ScaleScoreText()
         {
-            scoreText.ScaleYoYo(tweenDuration, scaleMultiplier);
+            scoreText.ScaleYoYo(scaleMultiplier, tweenDuration);
         }
 
         private void ScaleObstacles()
         {
-            placedObstacles.ScaleToZero(scaleMultiplier);
+            //placedObstacles.ScaleToZero(scaleMultiplier, tweenDuration);
+            OnObstaclesNeedToScale?.Invoke(scaleMultiplier, tweenDuration);
         }
 
         private void ResetObjectsScale()
         {
-            placedObstacles.ResetScale();
+            OnScaleReset?.Invoke();
+            //placedObstacles.ResetScale();
         }
 
         private void OnDestroyHandle()
